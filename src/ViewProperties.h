@@ -45,6 +45,8 @@ namespace QComicBook
         bool twoPagesMode() const;
         void setMangaMode(bool f);
         bool mangaMode() const;
+        void setUpscale(bool f);
+        bool upscale() const;
         const ViewPropertiesData& getProperties() const;
 
     private:

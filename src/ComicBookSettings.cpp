@@ -38,6 +38,7 @@
 #define OPT_EMBEDPAGENUMBERS         "/EmbedPageNumbers"
 #define OPT_CONTSCROLL               "/ContinuousScroll"
 #define OPT_VIEWTYPE                 "/ViewType"
+#define OPT_UPSCALE                 "/Upscale"
 
 #define GRP_NAVI                     "/Navigation"
 
@@ -162,6 +163,7 @@ void ComicBookSettings::load()
 		}
 		m_contscroll = m_cfg->value(OPT_CONTSCROLL, true).toBool();
 		m_viewtype = convert(viewtype2string, m_cfg->value(OPT_VIEWTYPE, viewtype2string[0].str).toString());
+        m_upscale = m_cfg->value(OPT_UPSCALE, false).toBool();
 	m_cfg->endGroup();
 	m_cfg->beginGroup(GRP_RUNTIME);
 		m_lastdir = m_cfg->value(OPT_LASTDIR, QString()).toString();
@@ -218,6 +220,11 @@ bool ComicBookSettings::continuousScrolling() const
 ViewType ComicBookSettings::viewType() const
 {
 	return m_viewtype;
+}
+
+bool ComicBookSettings::upscale() const
+{
+    return m_upscale;
 }
 
 bool ComicBookSettings::scrollbarsVisible() const
@@ -385,6 +392,15 @@ void ComicBookSettings::viewType(ViewType t)
 	{
 		m_cfg->setValue(GRP_VIEW OPT_VIEWTYPE, convert(viewtype2string, m_viewtype = t));
 	}
+}
+
+void ComicBookSettings::upscale(bool f)
+{
+    if (f != m_upscale)
+    {
+        m_cfg->setValue(GRP_VIEW OPT_UPSCALE, m_upscale = f);
+        emit displaySettingsChanged(OPT_UPSCALE);
+    }
 }
 
 void ComicBookSettings::scrollbarsVisible(bool f)

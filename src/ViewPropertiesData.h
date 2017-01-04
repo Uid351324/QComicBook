@@ -31,6 +31,7 @@ namespace QComicBook
         bool mangaMode;
         bool contScroll;
         bool smoothScaling;
+        bool upscale;
     };
 }
 

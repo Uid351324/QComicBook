@@ -130,7 +130,8 @@ ComicMainWindow::ComicMainWindow(QWidget *parent): QMainWindow(parent), currpage
     connect(actionFullscreen, SIGNAL(triggered(bool)), this, SLOT(toggleFullScreen()));
     connect(actionPreviousPage, SIGNAL(triggered(bool)), this, SLOT(prevPage()));   
     connect(actionMangaMode, SIGNAL(toggled(bool)), this, SLOT(toggleJapaneseMode(bool)));        
-    connect(actionTwoPages, SIGNAL(toggled(bool)), this, SLOT(toggleTwoPages(bool)));
+    connect(actionTwoPages, SIGNAL(toggled(bool)), this, SLOT(toggleTwoPages(bool)));    
+    connect(actionUpscale, SIGNAL(toggled(bool)), this, SLOT(toggleUpscale(bool)));
     connect(actionNextFrame, SIGNAL(triggered(bool)), this, SLOT(nextFrame()));
     connect(actionPreviousFrame, SIGNAL(triggered(bool)), this, SLOT(prevFrame()));
 
@@ -176,6 +177,7 @@ ComicMainWindow::ComicMainWindow(QWidget *parent): QMainWindow(parent), currpage
     connect(actionJumpToPage, SIGNAL(triggered()), this, SLOT(showJumpToPage()));
     connect(actionContinuousView, SIGNAL(toggled(bool)), this, SLOT(toggleContinousView(bool)));
     actionTwoPages->setChecked(cfg->twoPagesMode());
+    actionUpscale->setChecked(cfg->upscale());
     actionMangaMode->setChecked(cfg->japaneseMode());
     actionContinuousView->setChecked(cfg->continuousScrolling());
 
@@ -355,6 +357,7 @@ void ComicMainWindow::setupContextMenu()
     cmenu->addAction(actionNoRotation);
     cmenu->addSeparator();
     cmenu->addAction(actionTwoPages);
+    cmenu->addAction(actionUpscale);
     cmenu->addAction(actionMangaMode);
     cmenu->addSeparator();
     cmenu->addAction(actionFullscreen);
@@ -378,6 +381,7 @@ void ComicMainWindow::setupComicImageView()
     actionPreviousFrame->setDisabled(true);
     actionTwoPages->setDisabled(false);
     actionMangaMode->setDisabled(!cfg->twoPagesMode());
+    actionUpscale->setDisabled(!cfg->upscale());
     switch (cfg->viewType())
     {
 	case Continuous:
@@ -584,6 +588,12 @@ void ComicMainWindow::toggleTwoPages(bool f)
     actionMangaMode->setDisabled(!f);
     cfg->twoPagesMode(f);
     view->setTwoPagesMode(f);
+}
+
+void ComicMainWindow::toggleUpscale(bool f)
+{
+    cfg->upscale(f);
+    view->setUpscale(f);
 }
 
 void ComicMainWindow::toggleJapaneseMode(bool f)

@@ -34,6 +34,7 @@ void ViewProperties::setFromSettings()
     m_data.contScroll = cfg.continuousScrolling();
     m_data.twoPagesMode = cfg.twoPagesMode();
     m_data.mangaMode = cfg.japaneseMode();
+    m_data.upscale = cfg.upscale();
     m_data.background = cfg.background();
     m_data.smoothScaling = cfg.smoothScaling();
 }
@@ -135,6 +136,20 @@ void ViewProperties::setMangaMode(bool f)
 bool ViewProperties::mangaMode() const
 {
     return m_data.mangaMode;
+}
+
+void ViewProperties::setUpscale(bool f)
+{
+    if (m_data.upscale != f)
+    {
+        m_data.upscale = f;
+        emit changed();
+    }
+}
+
+bool ViewProperties::upscale() const
+{
+    return m_data.upscale;
 }
 
 const ViewPropertiesData& ViewProperties::getProperties() const
