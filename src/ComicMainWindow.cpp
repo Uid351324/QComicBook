@@ -381,7 +381,7 @@ void ComicMainWindow::setupComicImageView()
     actionPreviousFrame->setDisabled(true);
     actionTwoPages->setDisabled(false);
     actionMangaMode->setDisabled(!cfg->twoPagesMode());
-    actionUpscale->setDisabled(!cfg->upscale());
+    actionUpscale->setDisabled(false);
     switch (cfg->viewType())
     {
 	case Continuous:
