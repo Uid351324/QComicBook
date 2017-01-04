@@ -66,6 +66,7 @@ namespace QComicBook
 			void restoreDockLayout(ComicMainWindow *w) const;
 			bool showSplash() const;
 			QString tmpDir() const;
+			QString saveDir() const;
 			bool showDonationDialog() const;
 
 			void embedPageNumbers(bool f);
@@ -95,7 +96,8 @@ namespace QComicBook
 			void saveDockLayout(ComicMainWindow *w);
 			void saveGeometry(ComicMainWindow *w);
 			void showSplash(bool f);
-			void tmpDir(const QString &dir);
+			void tmpDir(const QString &dir);			
+			void saveDir(const QString &dir);
 			void showDonationDialog(bool f);
 
 			static ComicBookSettings& instance();
@@ -137,6 +139,7 @@ namespace QComicBook
 			bool m_showsplash;
 			bool m_donationdlg;
 			QString m_tmpdir;
+			QString m_savedir;
 			QFont m_font;
 
 			QString m_bkpath; //bookmarks path

@@ -48,6 +48,7 @@
 #define GRP_RUNTIME     "/Runtime"
 #define OPT_LASTDIR     "/LastDir"
 #define OPT_RECENT      "/RecentlyOpened"
+#define OPT_SAVEDIR      "/SaveDir"
 
 #define GRP_MISC        "/Misc"
 #define OPT_AUTOINFO    "/InfoDialog"
@@ -166,6 +167,7 @@ void ComicBookSettings::load()
 	m_cfg->beginGroup(GRP_RUNTIME);
 		m_lastdir = m_cfg->value(OPT_LASTDIR, QString()).toString();
 		m_recent = m_cfg->value(OPT_RECENT).toStringList(); 
+        m_savedir = m_cfg->value(OPT_SAVEDIR, QString()).toString();
         m_cfg->endGroup();
 	m_cfg->beginGroup(GRP_MISC);
 		m_donationdlg = m_cfg->value(OPT_DONATION, true).toBool();
@@ -328,6 +330,11 @@ void ComicBookSettings::restoreDockLayout(ComicMainWindow *w) const
 QString ComicBookSettings::tmpDir() const
 {
     return m_tmpdir;
+}
+
+QString ComicBookSettings::saveDir() const
+{
+    return m_savedir;
 }
 
 bool ComicBookSettings::showDonationDialog() const
@@ -561,6 +568,15 @@ void ComicBookSettings::tmpDir(const QString &dir)
     if (dir != m_tmpdir)
     {
         m_cfg->setValue(GRP_MISC OPT_TMPDIR, m_tmpdir = dir);
+    }
+}
+
+
+void ComicBookSettings::saveDir(const QString &dir)
+{
+    if (dir != m_savedir)
+    {
+        m_cfg->setValue(GRP_RUNTIME OPT_SAVEDIR, m_savedir = dir);
     }
 }
 			

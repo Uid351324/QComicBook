@@ -58,7 +58,7 @@
 #include <QPrintDialog>
 #include <QApplication>
 #include "ComicBookDebug.h"
-
+#include <QFile>
 using namespace QComicBook;
 using namespace Utility;
 
@@ -480,7 +480,7 @@ void ComicMainWindow::enableComicBookActions(bool f)
         actionShowInfo->setEnabled(f);
         actionOpenNext->setEnabled(x);
         actionOpenPrevious->setEnabled(x);
-	actionSavePageAs->setEnabled(x);
+	actionSavePageAs->setEnabled(f);
         actionPrint->setEnabled(x);
 
         //
@@ -974,7 +974,7 @@ void ComicMainWindow::showAbout()
 {
         AboutDialog *win = new AboutDialog(this, "About QComicBook",
                         "QComicBook " VERSION " - comic book viewer for GNU/Linux<br>"
-                        "(c)by Pawel Stolowski 2005-2016<br>"
+                        "(c)by Pawel Stolowski 2005-2017<br>"
                         "released under terms of GNU General Public License<br><br>"
                         "<a href=\"http://www.qcomicbook.org\">http://www.qcomicbook.org</a><br>"
                         "<a href=\"mailto:stolowski@gmail.com\">stolowski@gmail.com</a>", QPixmap(":/images/qcomicbook-splash.png"));
@@ -1078,24 +1078,33 @@ void ComicMainWindow::savePageAs()
 		int cnt = view->visiblePages();
 		for (int i = 0; i<cnt; i++)
 		{
-			QString tmpmsg(msg);
-			if (cnt > 1)
-                        {
-				tmpmsg += " (" + tr("page") + " " + QString::number(currpage + i + 1) + ")";
-                        }
-			QString fname = QFileDialog::getSaveFileName(this, tmpmsg, QString::null, "Images (*.jpg *.png)");
-			if (fname.isEmpty())
-                        {
-                            break;
-                        }
-                        int result;
-                        const Page img = sink->getImage(currpage + i, result);
-                        if (result != 0 || !img.getImage().save(fname)) //TODO: overwrite and default format (jpeg)
-                        {
-                            QMessageBox::critical(this, tr("QComicBook error"), tr("Error saving image"), QMessageBox::Ok, QMessageBox::NoButton);
-                            break; //do not attempt to save second image
-                        }
-		}
+            QString tmpmsg(msg);
+            if (cnt > 1)
+            {
+                tmpmsg += " (" + tr("page") + " " + QString::number(currpage + i + 1) + ")";
+            }
+            int result;
+            const Page img = sink->getImage(currpage + i, result);
+            QFileInfo booki(sink->getFullName());
+            QString page = sink->getFullFileName(currpage + i);
+            QFileInfo pagei(page);
+            QString filetext(cfg->saveDir() + "/" + booki.completeBaseName() + "_"+ pagei.fileName());
+            _DEBUG <<filetext;
+            QString fname = QFileDialog::getSaveFileName(this, tmpmsg, filetext, "Images (*.jpg *.png)");
+            if (fname.isEmpty())
+            {
+                break;
+            }
+            QFileInfo newi(fname);
+            cfg->saveDir(newi.absolutePath());
+            bool copy = QFile::copy(page, fname);
+                        // if (result != 0 || !img.getImage().save(fname)) //TODO: overwrite and default format (jpeg)
+            if (result != 0 || !copy)
+            {
+                QMessageBox::critical(this, tr("QComicBook error"), tr("Error saving image"), QMessageBox::Ok, QMessageBox::NoButton);
+                break; //do not attempt to save second image
+            }
+        }
 	}
 }
 
