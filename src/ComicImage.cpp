@@ -19,7 +19,7 @@
 #include "ImageJobResult.h"
 #include "ImageTransformThread.h"
 #include "ComicBookDebug.h"
-
+#include  <cmath>
 using namespace QComicBook;
 
 ComicImage::ComicImage(PageViewBase *parent)
@@ -120,10 +120,11 @@ void ComicImage::recalcScaledSize()
             size = FitHeight;
     }
 
-    if((hRatio > 1.0 or wRatio > 1.0) and not props.upscale())
-    {
-        size = Original;
-    }
+    // if((hRatio > 1.0 or wRatio > 1.0) and not props.upscale() and not size != WholePage)
+    // {
+    //     _DEBUG << "h " << hRatio << " w " << wRatio << " u " << props.upscale();
+    //     size = Original;
+    // }
 
     if (size == Original)
     {
@@ -134,15 +135,26 @@ void ComicImage::recalcScaledSize()
     {
         pixmapWidth = viewW;
         pixmapHeight = static_cast<int>(static_cast<double>(totalHeight) * wRatio);
+        if(not props.upscale() and wRatio > 1.0)
+        {
+            pixmapWidth = totalWidth;
+            pixmapHeight = totalHeight;
+        }
     }
     else if (size == FitHeight)
     {
         pixmapWidth = static_cast<int>(static_cast<double>(totalWidth) * hRatio);
         pixmapHeight = viewH;
+        if(not props.upscale() and hRatio > 1.0)
+        {
+            pixmapWidth = totalWidth;
+            pixmapHeight = totalHeight;
+        }
     }
     else if (size == WholePage)
     {
-        const double ratio = std::min(wRatio, hRatio);
+        const double ratio = std::min(std::min(wRatio, hRatio), not props.upscale() ? 1.0 : HUGE_VAL);
+        _DEBUG << "ratio " << ratio;
         pixmapWidth = static_cast<int>(static_cast<double>(ratio) * totalWidth);
         pixmapHeight = static_cast<int>(static_cast<double>(ratio) * totalHeight);
     }
