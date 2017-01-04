@@ -120,12 +120,6 @@ void ComicImage::recalcScaledSize()
             size = FitHeight;
     }
 
-    // if((hRatio > 1.0 or wRatio > 1.0) and not props.upscale() and not size != WholePage)
-    // {
-    //     _DEBUG << "h " << hRatio << " w " << wRatio << " u " << props.upscale();
-    //     size = Original;
-    // }
-
     if (size == Original)
     {
         pixmapWidth = totalWidth;

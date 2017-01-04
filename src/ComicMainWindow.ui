@@ -164,7 +164,6 @@
    <addaction name="separator"/>
    <addaction name="actionTwoPages"/>
    <addaction name="actionMangaMode"/>
-   <addaction name="actionUpscale"/>
    <addaction name="separator"/>
    <addaction name="actionPreviousPage"/>
    <addaction name="actionNextPage"/>
