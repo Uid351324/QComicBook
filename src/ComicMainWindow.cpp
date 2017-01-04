@@ -1097,9 +1097,8 @@ void ComicMainWindow::savePageAs()
             }
             QFileInfo newi(fname);
             cfg->saveDir(newi.absolutePath());
-            bool copy = QFile::copy(page, fname);
-                        // if (result != 0 || !img.getImage().save(fname)) //TODO: overwrite and default format (jpeg)
-            if (result != 0 || !copy)
+            bool copy = QFile::copy(page, fname);//TODO: copy fails if file already exists: leave this 'feature' or fix by deleting old file -> dialog 'do you want to overwrite?' ???
+            if (result != 0 || !copy) 
             {
                 QMessageBox::critical(this, tr("QComicBook error"), tr("Error saving image"), QMessageBox::Ok, QMessageBox::NoButton);
                 break; //do not attempt to save second image
