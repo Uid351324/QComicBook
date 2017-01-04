@@ -148,7 +148,7 @@ void ComicImage::recalcScaledSize()
     else if (size == WholePage)
     {
         const double ratio = std::min(std::min(wRatio, hRatio), not props.upscale() ? 1.0 : HUGE_VAL);
-        _DEBUG << "ratio " << ratio;
+
         pixmapWidth = static_cast<int>(static_cast<double>(ratio) * totalWidth);
         pixmapHeight = static_cast<int>(static_cast<double>(ratio) * totalHeight);
     }
