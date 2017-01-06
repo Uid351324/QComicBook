@@ -83,6 +83,7 @@
     <addaction name="separator"/>
     <addaction name="actionTwoPages"/>
     <addaction name="actionMangaMode"/>
+    <addaction name="actionUpscale"/>
     <addaction name="separator"/>
     <addaction name="actionSimpleView"/>
     <addaction name="actionContinuousView"/>
@@ -393,6 +394,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+J</string>
+   </property>
+  </action>
+  <action name="actionUpscale">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Upscale small images</string>
    </property>
   </action>
   <action name="actionFullscreen">

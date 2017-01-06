@@ -44,6 +44,7 @@ namespace QComicBook
 			bool japaneseMode() const;
 			bool continuousScrolling() const;
 			ViewType viewType() const;
+			bool upscale() const;
 			bool scrollbarsVisible() const;
 			Size pageSize() const;
 			bool smoothScaling() const;
@@ -76,6 +77,7 @@ namespace QComicBook
 			void japaneseMode(bool f);
 			void continuousScrolling(bool f);
 			void viewType(ViewType t);
+			void upscale(bool f);
 			void scrollbarsVisible(bool f);
 			void pageSize(Size s);
 			void smoothScaling(bool s);
@@ -126,6 +128,7 @@ namespace QComicBook
 			bool m_fscrhidetoolbar;
 			Size m_pagesize;
 			ViewType m_viewtype;
+			bool m_upscale;
 			bool m_smoothscaling;
 			QString m_lastdir;
 			QColor m_bgcolor;

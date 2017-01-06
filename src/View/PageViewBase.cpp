@@ -341,6 +341,10 @@ void PageViewBase::setMangaMode(bool f)
 {
     props.setMangaMode(f);
 }
+void PageViewBase::setUpscale(bool f)
+{
+    props.setUpscale(f);
+}
 
 void PageViewBase::setSmallCursor(bool f)
 {

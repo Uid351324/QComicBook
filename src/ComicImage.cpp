@@ -19,7 +19,7 @@
 #include "ImageJobResult.h"
 #include "ImageTransformThread.h"
 #include "ComicBookDebug.h"
-
+#include  <cmath>
 using namespace QComicBook;
 
 ComicImage::ComicImage(PageViewBase *parent)
@@ -119,6 +119,7 @@ void ComicImage::recalcScaledSize()
         else
             size = FitHeight;
     }
+
     if (size == Original)
     {
         pixmapWidth = totalWidth;
@@ -128,15 +129,26 @@ void ComicImage::recalcScaledSize()
     {
         pixmapWidth = viewW;
         pixmapHeight = static_cast<int>(static_cast<double>(totalHeight) * wRatio);
+        if(not props.upscale() and wRatio > 1.0)
+        {
+            pixmapWidth = totalWidth;
+            pixmapHeight = totalHeight;
+        }
     }
     else if (size == FitHeight)
     {
         pixmapWidth = static_cast<int>(static_cast<double>(totalWidth) * hRatio);
         pixmapHeight = viewH;
+        if(not props.upscale() and hRatio > 1.0)
+        {
+            pixmapWidth = totalWidth;
+            pixmapHeight = totalHeight;
+        }
     }
     else if (size == WholePage)
     {
-        const double ratio = std::min(wRatio, hRatio);
+        const double ratio = std::min(std::min(wRatio, hRatio), not props.upscale() ? 1.0 : HUGE_VAL);
+
         pixmapWidth = static_cast<int>(static_cast<double>(ratio) * totalWidth);
         pixmapHeight = static_cast<int>(static_cast<double>(ratio) * totalHeight);
     }

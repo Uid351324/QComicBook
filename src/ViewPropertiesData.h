@@ -32,6 +32,7 @@ namespace QComicBook
         bool contScroll;
         bool smoothScaling;
         int gapSize;
+        bool upscale;
     };
 }
 

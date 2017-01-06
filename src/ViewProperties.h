@@ -47,6 +47,8 @@ namespace QComicBook
         bool mangaMode() const;
         void setGapSize(int f);
         int gapSize() const;
+        void setUpscale(bool f);
+        bool upscale() const;
         const ViewPropertiesData& getProperties() const;
 
     private:
