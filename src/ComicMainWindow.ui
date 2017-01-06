@@ -227,6 +227,9 @@
    <property name="text">
     <string>Save page as</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionShowInfo">
    <property name="icon">
