@@ -19,6 +19,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
+#include <QImageReader>
 
 using namespace QComicBook;
 
@@ -167,11 +168,20 @@ QImage ImgDirSink::image(unsigned int num, int &result)
 	{
 		const QString fname = imgfiles[num];
 		listmtx.unlock();
+        QImageReader imReader(fname);
+        imReader.setDecideFormatFromContent(true);
+        if (!imReader.canRead())
+         result = 1;
+        else
+         result = 0;
 
-		if (!im.load(fname))
-			result = 1;
-		else
-			result = 0;
+        im = imReader.read();
+        
+
+		// if (!im.load(fname))
+		// 	result = 1;
+		// else
+		// 	result = 0;
 
 		/*const QFileInfo finf(fname);
 
